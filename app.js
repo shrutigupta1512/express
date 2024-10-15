@@ -1,10 +1,16 @@
 const http = require('http');
-const routes = require('./routes');
+const express=require('express');
 
-console.log(routes.someText);
-
-const server = http.createServer(routes.handler);
-
-server.listen(8000, () => {
-  console.log('Server is running on port 8000');
+const app=express();
+app.use((req, res, next) => {
+    console.log('In the middleware!');
+    next(); // Allows the request to continue to the next middleware in line
 });
+
+app.use((req, res, next) => {
+    console.log('In another middleware!');
+    res.send('<h1>Hello from Express!</h1>');
+});
+
+
+app.listen(8000);
